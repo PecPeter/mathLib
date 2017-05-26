@@ -1,18 +1,17 @@
 #ifndef MATHLINALGEBRA_HPP
 #define MATHLINALGEBRA_HPP
 
+#include <algorithm>
 #include <cmath>
 
-#include "../engineMetrics.hpp"
-#include "mathMatrix.hpp"
 #include "mathVector.hpp"
 
-double max (const double& v1, const double& v2);
-double min (const double& v1, const double& v2);
-void clampMax (const double& max, double& value);
-void clampMin (const double& min, double& value);
-void clampRange (const double& min, const double& max, double& value);
-bool isWithinRange (const double& min, const double& max, const double& value);
+double max (double v1, double v2);
+double min (double v1, double v2);
+void clampMax (double max, double& value);
+void clampMin (double min, double& value);
+void clampRange (double b1, double b2, double& value);
+bool isWithinRange (double b1, double b2, double value);
 
 // When the rotation matrix is multiplied by a column vector (ie.
 // rotnMatrix*column), the points in the column vector will be rotated

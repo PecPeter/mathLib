@@ -1,30 +1,32 @@
 #include "mathLinAlgebra.hpp"
 
-double max (const double& v1, const double& v2) {
+double max (double v1, double v2) {
 	if (v1 > v2) return v1;
 	return v2;
 }
 
-double min (const double& v1, const double& v2) {
+double min (double v1, double v2) {
 	if (v1 < v2) return v1;
 	return v2;
 }
 
-void clampMax (const double& max, double& value) {
+void clampMax (double max, double& value) {
 	if (value > max) value = max;
 }
 
-void clampMin (const double& min, double& value) {
+void clampMin (double min, double& value) {
 	if (value < min) value = min;
 }
 
-void clamp (const double& min, const double& max, double& value) {
-	clampMax(max,value);
-	clampMin(min,value);
+void clampRange (double b1, double b2, double& value) {
+	if (b1 > b2) std::swap(b1,b2);
+	clampMin(b1,value);
+	clampMax(b2,value);
 }
 
-bool isWithinRange (const double& min, const double& max, const double& value) {
-	if (value >= min && value <= max) return true;
+bool isWithinRange (double b1, double b2, double value) {
+	if (b1 > b2) std::swap(b1,b2);
+	if (value >= b1 && value <= b2) return true;
 	return false;
 }
 

@@ -2,9 +2,9 @@
 #define MATHMATRIX_HPP
 
 // Remove iostream when testing is completed
+#include <cmath>
 #include <iostream>
 #include <vector>
-#include <cmath>
 
 class cMatrix {
 	public:
