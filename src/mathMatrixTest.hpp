@@ -12,7 +12,7 @@ bool matrixInitTest1 (std::string& errorString);
 bool matrixInitTest2 (std::string& errorString);
 bool matrixInitTest3 (std::string& errorString);
 bool matrixCopyTest(std::string& errorString);
-bool matrixDestructorTest(std::string& errorString);
+//bool matrixDestructorTest(std::string& errorString);
 bool setTest (std::string& errorString);
 bool getTest (std::string& errorString);
 bool resizeTest (std::string& errorString);

@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cmath>
 
+#include "mathMatrix.hpp"
 #include "mathVector.hpp"
 
 double max (double v1, double v2);

@@ -3,91 +3,98 @@
 void mathMatrixTest (void) {
 	std::string errorString;
 	if (matrixInitTest1(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed matrixInitTest1: " << errorString << "\n";
  	if (matrixInitTest2(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed matrixInitTest2: " << errorString << "\n";
  	if (matrixInitTest3(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed matrixInitTest3: " << errorString << "\n";
  	if (matrixCopyTest(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
- 	if (matrixDestructorTest(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed matrixCopyTest: " << errorString << "\n";
  	if (setTest(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed setTest: " << errorString << "\n";
  	if (getTest(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed getTest: " << errorString << "\n";
  	if (resizeTest(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed resizeTest: " << errorString << "\n";
  	if (getSizeTest(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed getSizeTest: " << errorString << "\n";
  	if (getRowSizeTest(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed getRowSizeTest: " << errorString << "\n";
  	if (getColSizeTest(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed getColSizeTest: " << errorString << "\n";
  	if (opEqualityTest(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed opEqualityTest: " << errorString << "\n";
  	if (opInequalityTest(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed opInequalityTest: " << errorString << "\n";
  	if (opMultiplyTest1(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed opMultiplyTest1: " << errorString << "\n";
  	if (opMultiplyTest2(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed :opMultiplyTest2" << errorString << "\n";
  	if (opMultiplyTest3(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed opMultiplyTest3: " << errorString << "\n";
  	if (opMultiplyEqualsTest1(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed opMultiplyEqualsTest1: " << errorString << "\n";
  	if (opMultiplyEqualsTest2(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed opMultiplyEqualsTest1: " << errorString << "\n";
  	if (opAddTest1(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed opAddTest1: " << errorString << "\n";
  	if (opAddTest2(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed opAddTest2: " << errorString << "\n";
  	if (opAddTest3(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed opAddTest3: " << errorString << "\n";
  	if (opAddEqualsTest1(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed opAddEqualsTest1: " << errorString << "\n";
  	if (opAddEqualsTest2(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed opAddEqualsTest2: " << errorString << "\n";
  	if (opSubtractTest1(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed opSubtractTest1: " << errorString << "\n";
  	if (opSubtractTest2(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed opSubtractTest2: " << errorString << "\n";
  	if (opSubtractTest3(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed opSubtractTest3: " << errorString << "\n";
  	if (opSubtractEqualsTest1(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed opSubtractEqualsTest1: " << errorString << "\n";
  	if (opSubtractEqualsTest2(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed opSubtractEqualsTest2: " << errorString << "\n";
  	if (opOutputTest(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed opOutputTest: " << errorString << "\n";
  	if (mTransposeTest(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed mTransposeTest: " << errorString << "\n";
  	if (mCoeffMultTest(errorString) == false)
-		std::cout << "Failed " << errorString << "\n";
+		std::cerr << "\tFailed mCoeffMultTest: " << errorString << "\n";
 }
 
 bool matrixInitTest1 (std::string& errorString) {
-	// Test function for cMatrix(void)
+	cMatrix m1;
 	return true;
 }
 
 bool matrixInitTest2 (std::string& errorString) {
+	cMatrix m1, m2(m1);
 	return true;
 }
 
 bool matrixInitTest3 (std::string& errorString) {
+	bool caughtExcept = false;
+	try {
+		cMatrix m1(-1,2);
+	}
+	catch (std::invalid_argument& exception) {
+		caughtExcept = true;
+	}
+	if (caughtExcept == false)
+		return false;
+	cMatrix m2(1.0,4);
 	return true;
 }
 
 bool matrixCopyTest(std::string& errorString) {
-	return true;
-}
-
-bool matrixDestructorTest(std::string& errorString) {
-	return true;
+	errorString = "Have to write a function for this still.";
+	return false;
 }
 
 bool setTest (std::string& errorString) {
+	cMatrix m1, m2, m3, m4, m5;
 	return true;
 }
 

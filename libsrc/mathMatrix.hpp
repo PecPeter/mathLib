@@ -4,6 +4,8 @@
 // Remove iostream when testing is completed
 #include <cmath>
 #include <iostream>
+#include <stdexcept>
+#include <string>
 #include <vector>
 
 class cMatrix {
@@ -12,7 +14,6 @@ class cMatrix {
 		cMatrix (const cMatrix& matrix);
 		cMatrix (int nRows, int nCols);
 		cMatrix& operator= (const cMatrix& rhs);
-		virtual ~cMatrix (void);
 
 		double& set (int rowIndex, int colIndex);
 		double get (int rowIndex, int colIndex) const;
