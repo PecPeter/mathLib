@@ -62,6 +62,11 @@ double cMatrix::get (int rowIndex, int colIndex) const {
 }
 
 void cMatrix::resize (int nRows, int nCols) {
+	if (nRows < 0 || nCols < 0) {
+		std::string errorStr = "Invalid size: nRows = " + std::to_string(nRows) +
+			", nCols = " + std::to_string(nCols);
+		throw std::invalid_argument(errorStr);
+	}
 	if (nRows_ != nRows || nCols_ != nCols) {
 		nRows_ = nRows;
 		nCols_ = nCols;

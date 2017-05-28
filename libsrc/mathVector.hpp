@@ -1,13 +1,13 @@
 #ifndef MATHVECTOR_HPP
 #define MATHVECTOR_HPP
 
-#include <stdexcept>
 #include <cassert>
 #include <cmath>
 #include <limits>
+#include <stdexcept>
 
-#include "mathMatrix.hpp"
 #include "mathConstants.hpp"
+#include "mathMatrix.hpp"
 
 class cVector2: public cMatrix {
 	public:
@@ -69,7 +69,7 @@ double vDotProd (const cVector2& v1, const cVector2& v2);
 double vAngleRad (const cVector2& v1, const cVector2& v2);
 double vAngleDeg (const cVector2& v1, const cVector2& v2);
 double vScalProj (const cVector2& projVec, const cVector2& projAxis);
-cVector2 vUnitVector (const cVector2& v1); //check for divide by 0
+cVector2 vUnitVector (const cVector2& v1);
 cVector2 vAbsolute (const cVector2& v1);
 cVector2 vNormalR (const cVector2& v1);
 cVector2 vNormalL (const cVector2& v1);

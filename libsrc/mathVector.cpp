@@ -12,7 +12,7 @@ cVector2::cVector2 (const cVector2& vector): cMatrix(vector) {}
 cVector2::cVector2 (const cMatrix& matrix): cMatrix(2,1) {
 	matrix.getSize(&nRows_,&nCols_);
 	if (nRows_ != 2 && nCols_ != 1)
-		throw(std::range_error("Matrix dimensions are wrong"));
+		throw std::range_error("Matrix dimensions are wrong");
 	set(0,0) = matrix.get(0,0);
 	set(1,0) = matrix.get(1,0);
 }
@@ -48,7 +48,7 @@ cVector3::cVector3 (const cVector3& vector): cMatrix(vector) {}
 cVector3::cVector3 (const cMatrix& matrix): cMatrix(3,1) {
 	matrix.getSize(&nRows_,&nCols_);
 	if (nRows_ != 3 && nCols_ != 1)
-		throw(std::range_error("Matrix dimensions are wrong"));
+		throw std::range_error("Matrix dimensions are wrong");
 	set(0,0) = matrix.get(0,0);
 	set(1,0) = matrix.get(1,0);
 	set(2,0) = matrix.get(2,0);
@@ -94,7 +94,7 @@ cVector4::cVector4 (const cVector4& vector): cMatrix(vector) {}
 cVector4::cVector4 (const cMatrix& matrix): cMatrix(4,1) {
 	matrix.getSize(&nRows_,&nCols_);
 	if (nRows_ != 4 && nCols_ != 1)
-		throw(std::range_error("Matrix dimensions are wrong"));
+		throw std::range_error("Matrix dimensions are wrong");
 	set(0,0) = matrix.get(0,0);
 	set(1,0) = matrix.get(1,0);
 	set(2,0) = matrix.get(2,0);
@@ -156,7 +156,7 @@ double vDotProd (const cVector2& v1, const cVector2& v2) {
 	int rows, cols;
 	v1.getSize(&rows,&cols);
 	if (rows != v2.getRowSize() || cols != v2.getColSize()) {
-		//throw exception
+		throw std::range_error("Matrix dimensions are wrong");
 	}
 	double dotProduct = 0;
 	for (int i = 0; i < rows; ++i) {
@@ -182,7 +182,11 @@ double vScalProj (const cVector2& projVec, const cVector2& projAxis) {
 
 cVector2 vUnitVector (const cVector2& v1) {
 	cVector2 tmpVec(v1);
-	tmpVec *= 1.0/vMagnitude(v1);
+	double mag = vMagnitude(v1);
+	if (mag == 0.0) {
+		throw std::runtime_error("Vector magnitude is 0.");
+	}
+	tmpVec *= 1.0/mag;
 	return tmpVec;
 }
 
@@ -226,7 +230,7 @@ cVector2 intersectionLineLine (const cVector2& pt1, const cVector2& lineDir1,
 	if ((lineDir1.getX() == 0 && lineDir2.getX() == 0) ||
 			(lineDir1.getY() == 0 && lineDir2.getY() == 0))
 		// throw an error, lines are parallel
-		throw(std::runtime_error("Lines are parallel"));
+		throw std::runtime_error("Lines are parallel");
 	if (lineDir1.getX() == 0) {
 		// Vertical asymptote
 		xInt = pt1.getX();
@@ -254,7 +258,7 @@ cVector2 intersectionLineLine (const cVector2& pt1, const cVector2& lineDir1,
 	if (std::isnan(m2) == true)
 		m2 = lineDir2.getY()/lineDir2.getX();
 	if (m1 == m2)
-		throw(std::runtime_error("Lines are parallel"));
+		throw std::runtime_error("Lines are parallel");
 	if (std::isnan(b1) == true)
 		b1 = pt1.getY()-m1*pt1.getX();
 	if (std::isnan(b2) == true)

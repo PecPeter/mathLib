@@ -70,7 +70,7 @@ bool matrixInitTest1 (std::string& errorString) {
 }
 
 bool matrixInitTest2 (std::string& errorString) {
-	cMatrix m1, m2(m1);
+	cMatrix m1, m2(m1), m3(3,2),m4(m3);
 	return true;
 }
 
@@ -89,40 +89,205 @@ bool matrixInitTest3 (std::string& errorString) {
 }
 
 bool matrixCopyTest(std::string& errorString) {
-	errorString = "Have to write a function for this still.";
-	return false;
+	cMatrix m1(2,3), m2;
+	m1.set(0,0) = 1;
+	m1.set(0,1) = 2;
+	m1.set(0,2) = 3;
+	m1.set(1,0) = 4;
+	m1.set(1,1) = 5;
+	m1.set(1,2) = 6;
+
+	m2 = m1;
+
+	return true;
 }
 
 bool setTest (std::string& errorString) {
-	cMatrix m1, m2, m3, m4, m5;
+	cMatrix m1(1,2);
+	bool caughtError = false;
+	try {
+		m1.set(2,1) = 123;
+	}
+	catch (std::out_of_range& error) {
+		caughtError = true;
+	}
+	if (caughtError == false) {
+		errorString = "Did not catch out_of_range exception.";
+		return false;
+	}
 	return true;
 }
 
 bool getTest (std::string& errorString) {
+	cMatrix m1(2,3);
+	m1.set(0,0) = 1;
+	m1.set(0,1) = 2;
+	m1.set(0,2) = 3;
+	m1.set(1,0) = 4;
+	m1.set(1,1) = 5;
+	m1.set(1,2) = 6;
+
+	double val = m1.get(1,2);
+	if (val != 6) {
+		errorString = "Expected 6, recieved: " + std::to_string(val);
+		return false;
+	}
+	
+	bool caughtError = false;
+	try {
+		val = m1.get(3,3);
+	}
+	catch (std::out_of_range& error) {
+		caughtError = true;
+	}
+	if (caughtError == false) {
+		errorString = "Did not catch out_of_range exception.";
+		return false;
+	}
 	return true;
 }
 
 bool resizeTest (std::string& errorString) {
+	cMatrix m1;
+	m1.resize(3,5);
+	int nRow, nCol;
+	m1.getSize(&nRow,&nCol);
+	if (nRow != 3 && nCol != 5) {
+		errorString = "Resized matrix incorrectly: nRows = " + 
+			std::to_string(nRow) + ", nCol = " + std::to_string(nCol) +
+			". Expected nRow = 3, nCol = 5.";
+		return false;
+	}
+	
+	bool caughtError = false;
+	try {
+		m1.resize(-1,3);
+	}
+	catch (std::invalid_argument& error) {
+		caughtError = true;
+	}
+	if (caughtError == false) {
+		errorString = "Did not catch invalid_argument exception.";
+		return false;
+	}
 	return true;
 }
 
 bool getSizeTest (std::string& errorString) {
+	cMatrix m1(2,3), m2;
+	int rows, cols;
+	m1.getSize(&rows,&cols);
+	if (rows != 2 || cols != 3) {
+		errorString = "Incorrect matrix size. Expected (2x3), recieved (" +
+			std::to_string(rows) + "x" + std::to_string(cols) + ")";
+		return false;
+	}
+	m2.getSize(&rows,&cols);
+	if (rows != 0 || cols != 0) {
+		errorString = "Incorrect matrix size. Expected (0x0), recieved (" +
+			std::to_string(rows) + "x" + std::to_string(cols) + ")";
+		return false;
+	}
 	return true;
 }
 
 bool getRowSizeTest (std::string& errorString) {
+	cMatrix m1(5,5);
+	int val = m1.getRowSize();
+	if (val != 5) {
+		errorString = "Incorrect row size: Expected 5, received " + 
+			std::to_string(val);
+		return false;
+	}
 	return true;
 }
 
 bool getColSizeTest (std::string& errorString) {
+	cMatrix m1(5,5);
+	int val = m1.getColSize();
+	if (val != 5) {
+		errorString = "Incorrect col size: Expected 5, received " + 
+			std::to_string(val);
+		return false;
+	}
 	return true;
 }
 
 bool opEqualityTest (std::string& errorString) {
+	cMatrix m1(2,2);
+	m1.set(0,0) = 1;
+	m1.set(0,1) = 2;
+	m1.set(1,0) = 3;
+	m1.set(1,1) = 4;
+
+	cMatrix m2(m1);
+	if ((m1 == m2) == false) {
+		errorString = "Matrices expected to be equal.";
+		return false;
+	}
+	
+	cMatrix m3(2,3);
+	m3.set(0,0) = 1;
+	m3.set(0,1) = 2;
+	m3.set(0,2) = 0;
+	m3.set(1,0) = 3;
+	m3.set(1,1) = 4;
+	m3.set(1,2) = 0;
+	if ((m1 == m3) == true) {
+		errorString = "Matrices m1 and m3 expected to not be equal.";
+		return false;
+	}
+
+	cMatrix m4(3,2);
+	m4.set(0,0) = 1;
+	m4.set(1,0) = 3;
+	m4.set(2,0) = 0;
+	m4.set(0,1) = 2;
+	m4.set(1,1) = 4;
+	m4.set(2,1) = 0;
+	if ((m1 == m4) == true) {
+		errorString = "Matrices m1 and m4 expected to not be equal.";
+		return false;
+	}
 	return true;
 }
 
 bool opInequalityTest (std::string& errorString) {
+	cMatrix m1(2,2);
+	m1.set(0,0) = 1;
+	m1.set(0,1) = 2;
+	m1.set(1,0) = 3;
+	m1.set(1,1) = 4;
+
+	cMatrix m2(m1);
+	if ((m1 != m2) == true) {
+		errorString = "Matrices expected to be equal.";
+		return false;
+	}
+	
+	cMatrix m3(2,3);
+	m3.set(0,0) = 1;
+	m3.set(0,1) = 2;
+	m3.set(0,2) = 0;
+	m3.set(1,0) = 3;
+	m3.set(1,1) = 4;
+	m3.set(1,2) = 0;
+	if ((m1 != m3) == false) {
+		errorString = "Matrices m1 and m3 expected to not be equal.";
+		return false;
+	}
+
+	cMatrix m4(3,2);
+	m4.set(0,0) = 1;
+	m4.set(1,0) = 3;
+	m4.set(2,0) = 0;
+	m4.set(0,1) = 2;
+	m4.set(1,1) = 4;
+	m4.set(2,1) = 0;
+	if ((m1 != m4) == false) {
+		errorString = "Matrices m1 and m4 expected to not be equal.";
+		return false;
+	}
 	return true;
 }
 
@@ -197,4 +362,3 @@ bool mTransposeTest (std::string& errorString) {
 bool mCoeffMultTest (std::string& errorString) {
 	return true;
 }
-
