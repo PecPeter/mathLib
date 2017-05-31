@@ -29,7 +29,7 @@ void mathMatrixTest (void) {
  	if (opMultiplyTest1(errorString) == false)
 		std::cerr << "\tFailed opMultiplyTest1: " << errorString << "\n";
  	if (opMultiplyTest2(errorString) == false)
-		std::cerr << "\tFailed :opMultiplyTest2" << errorString << "\n";
+		std::cerr << "\tFailed opMultiplyTest2: " << errorString << "\n";
  	if (opMultiplyTest3(errorString) == false)
 		std::cerr << "\tFailed opMultiplyTest3: " << errorString << "\n";
  	if (opMultiplyEqualsTest1(errorString) == false)
@@ -292,62 +292,480 @@ bool opInequalityTest (std::string& errorString) {
 }
 
 bool opMultiplyTest1 (std::string& errorString) {
+	cMatrix m1(2,3), m2(3,2);
+	m1.set(0,0) = 1;
+	m1.set(0,1) = -2;
+	m1.set(0,2) = 3;
+	m1.set(1,0) = 4.0/7.0;
+	m1.set(1,1) = -5.1234;
+	m1.set(1,2) = 6;
+
+	m2.set(0,0) = 321;
+	m2.set(0,1) = -0.00001;
+	m2.set(1,0) = 432.0/123.9;
+	m2.set(1,1) = 7;
+	m2.set(2,0) = -48.5;
+	m2.set(2,1) = 0;
+
+	cMatrix m3 = m1 * m2;
+	cMatrix expMatrix(2,2);
+	expMatrix.set(0,0) = (1.0*321.0)+(-2.0*(432.0/123.9))+(3.0*-48.5);
+	expMatrix.set(0,1) = (1.0*-0.00001)+(-2.0*7.0)+(3.0*0.0);
+	expMatrix.set(1,0) = ((4.0/7.0)*321.0)+(-5.1234*(432.0/123.9))+(6.0*-48.5);
+	expMatrix.set(1,1) = ((4.0/7.0)*-0.00001)+(-5.1234*7.0)+(6.0*0.0);
+	if (m3 != expMatrix) {
+		errorString = "Resultant matrix doesn't equal the expected matrix";
+		return false;
+	}
+
+	cMatrix m4(4,4);
+	bool caughtError = false;
+	try {
+		cMatrix m5 = m1*m4;
+	}
+	catch (std::out_of_range& exception) {
+		caughtError = true;
+	}
+	if (caughtError == false) {
+		errorString = "Did not catch exception";
+		return false;
+	}
 	return true;
 }
 
 bool opMultiplyTest2 (std::string& errorString) {
+	cMatrix m1(2,3);
+	m1.set(0,0) = 1;
+	m1.set(0,1) = -2;
+	m1.set(0,2) = 3;
+	m1.set(1,0) = 4.0/7.0;
+	m1.set(1,1) = -5.1234;
+	m1.set(1,2) = 6;
+
+	double val = 1.5;
+	cMatrix m2 = val * m1;
+	cMatrix expMatrix(2,3);
+	expMatrix.set(0,0) = 1.0*val;
+	expMatrix.set(0,1) = -2.0*val;
+	expMatrix.set(0,2) = 3.0*val;
+	expMatrix.set(1,0) = (4.0/7.0)*val;
+	expMatrix.set(1,1) = -5.1234*val;
+	expMatrix.set(1,2) = 6.0*val;
+	if (m2 != expMatrix) {
+		errorString = "Resultant matrix doesn't equal the expected matrix";
+		return false;
+	}
 	return true;
 }
 
 bool opMultiplyTest3 (std::string& errorString) {
+	cMatrix m1(2,3);
+	m1.set(0,0) = 1;
+	m1.set(0,1) = -2;
+	m1.set(0,2) = 3;
+	m1.set(1,0) = 4.0/7.0;
+	m1.set(1,1) = -5.1234;
+	m1.set(1,2) = 6;
+
+	double val = 1.5;
+	cMatrix m2 = m1 * val;
+	cMatrix expMatrix(2,3);
+	expMatrix.set(0,0) = 1.0*val;
+	expMatrix.set(0,1) = -2.0*val;
+	expMatrix.set(0,2) = 3.0*val;
+	expMatrix.set(1,0) = (4.0/7.0)*val;
+	expMatrix.set(1,1) = -5.1234*val;
+	expMatrix.set(1,2) = 6.0*val;
+	if (m2 != expMatrix) {
+		errorString = "Resultant matrix doesn't equal the expected matrix";
+		return false;
+	}
 	return true;
 }
 
 bool opMultiplyEqualsTest1 (std::string& errorString) {
+	cMatrix m1(2,3), m2(3,2);
+	m1.set(0,0) = 1;
+	m1.set(0,1) = -2;
+	m1.set(0,2) = 3;
+	m1.set(1,0) = 4.0/7.0;
+	m1.set(1,1) = -5.1234;
+	m1.set(1,2) = 6;
+
+	m2.set(0,0) = 321;
+	m2.set(0,1) = -0.00001;
+	m2.set(1,0) = 432.0/123.9;
+	m2.set(1,1) = 7;
+	m2.set(2,0) = -48.5;
+	m2.set(2,1) = 0;
+
+	m1 *= m2;
+	cMatrix expMatrix(2,2);
+	expMatrix.set(0,0) = (1.0*321.0)+(-2.0*(432.0/123.9))+(3.0*-48.5);
+	expMatrix.set(0,1) = (1.0*-0.00001)+(-2.0*7.0)+(3.0*0.0);
+	expMatrix.set(1,0) = ((4.0/7.0)*321.0)+(-5.1234*(432.0/123.9))+(6.0*-48.5);
+	expMatrix.set(1,1) = ((4.0/7.0)*-0.00001)+(-5.1234*7.0)+(6.0*0.0);
+	if (m1 != expMatrix) {
+		errorString = "Resultant matrix doesn't equal the expected matrix";
+		return false;
+	}
 	return true;
 }
 
 bool opMultiplyEqualsTest2 (std::string& errorString) {
+	cMatrix m1(2,3);
+	m1.set(0,0) = 1;
+	m1.set(0,1) = -2;
+	m1.set(0,2) = 3;
+	m1.set(1,0) = 4.0/7.0;
+	m1.set(1,1) = -5.1234;
+	m1.set(1,2) = 6;
+
+	double val = 1.5;
+	m1 *= val;
+	cMatrix expMatrix(2,3);
+	expMatrix.set(0,0) = 1.0*val;
+	expMatrix.set(0,1) = -2.0*val;
+	expMatrix.set(0,2) = 3.0*val;
+	expMatrix.set(1,0) = (4.0/7.0)*val;
+	expMatrix.set(1,1) = -5.1234*val;
+	expMatrix.set(1,2) = 6.0*val;
+	if (m1 != expMatrix) {
+		errorString = "Resultant matrix doesn't equal the expected matrix";
+		return false;
+	}
 	return true;
 }
 
 bool opAddTest1 (std::string& errorString) {
+	cMatrix m1(2,3), m2(2,3);
+	m1.set(0,0) = 1;
+	m1.set(0,1) = -2;
+	m1.set(0,2) = 3;
+	m1.set(1,0) = 4.0/7.0;
+	m1.set(1,1) = -5.1234;
+	m1.set(1,2) = 6;
+
+	m2.set(0,0) = 321;
+	m2.set(0,1) = -0.00001;
+	m2.set(0,2) = 432.0/123.9;
+	m2.set(1,0) = 7;
+	m2.set(1,1) = -48.5;
+	m2.set(1,2) = 0;
+
+	cMatrix m3 = m1 + m2;
+	cMatrix expMatrix(2,3);
+	expMatrix.set(0,0) = 1.0+321.0;
+	expMatrix.set(0,1) = -2.0+(-0.00001);
+	expMatrix.set(0,2) = 3.0+(432.0/123.9);
+	expMatrix.set(1,0) = (4.0/7.0)+7.0;
+	expMatrix.set(1,1) = -5.1234+(-48.5);
+	expMatrix.set(1,2) = 6.0+0.0;
+	if (m3 != expMatrix) {
+		errorString = "Resultant matrix doesn't equal the expected matrix";
+		return false;
+	}
+
+	cMatrix m4(4,4);
+	bool caughtError = false;
+	try {
+		cMatrix m5 = m1+m4;
+	}
+	catch (std::out_of_range& exception) {
+		caughtError = true;
+	}
+	if (caughtError == false) {
+		errorString = "Did not catch exception";
+		return false;
+	}
 	return true;
 }
 
 bool opAddTest2 (std::string& errorString) {
+	cMatrix m1(2,3);
+	m1.set(0,0) = 1;
+	m1.set(0,1) = -2;
+	m1.set(0,2) = 3;
+	m1.set(1,0) = 4.0/7.0;
+	m1.set(1,1) = -5.1234;
+	m1.set(1,2) = 6;
+
+	double val = 4.5;
+
+	cMatrix m2 = val + m1;
+	cMatrix expMatrix(2,3);
+	expMatrix.set(0,0) = 1.0+val;
+	expMatrix.set(0,1) = -2.0+val;
+	expMatrix.set(0,2) = 3.0+val;
+	expMatrix.set(1,0) = (4.0/7.0)+val;
+	expMatrix.set(1,1) = -5.1234+val;
+	expMatrix.set(1,2) = 6.0+val;
+	if (m2 != expMatrix) {
+		errorString = "Resultant matrix doesn't equal the expected matrix";
+		return false;
+	}
 	return true;
 }
 
 bool opAddTest3 (std::string& errorString) {
+	cMatrix m1(2,3);
+	m1.set(0,0) = 1;
+	m1.set(0,1) = -2;
+	m1.set(0,2) = 3;
+	m1.set(1,0) = 4.0/7.0;
+	m1.set(1,1) = -5.1234;
+	m1.set(1,2) = 6;
+
+	double val = 4.5;
+
+	cMatrix m2 = m1 + val;
+	cMatrix expMatrix(2,3);
+	expMatrix.set(0,0) = 1.0+val;
+	expMatrix.set(0,1) = -2.0+val;
+	expMatrix.set(0,2) = 3.0+val;
+	expMatrix.set(1,0) = (4.0/7.0)+val;
+	expMatrix.set(1,1) = -5.1234+val;
+	expMatrix.set(1,2) = 6.0+val;
+	if (m2 != expMatrix) {
+		errorString = "Resultant matrix doesn't equal the expected matrix";
+		return false;
+	}
 	return true;
 }
 
 bool opAddEqualsTest1 (std::string& errorString) {
+	cMatrix m1(2,3), m2(2,3);
+	m1.set(0,0) = 1;
+	m1.set(0,1) = -2;
+	m1.set(0,2) = 3;
+	m1.set(1,0) = 4.0/7.0;
+	m1.set(1,1) = -5.1234;
+	m1.set(1,2) = 6;
+
+	m2.set(0,0) = 321;
+	m2.set(0,1) = -0.00001;
+	m2.set(0,2) = 432.0/123.9;
+	m2.set(1,0) = 7;
+	m2.set(1,1) = -48.5;
+	m2.set(1,2) = 0;
+
+	m1 += m2;
+	cMatrix expMatrix(2,3);
+	expMatrix.set(0,0) = 1.0+321.0;
+	expMatrix.set(0,1) = -2.0+(-0.00001);
+	expMatrix.set(0,2) = 3.0+(432.0/123.9);
+	expMatrix.set(1,0) = (4.0/7.0)+7.0;
+	expMatrix.set(1,1) = -5.1234+(-48.5);
+	expMatrix.set(1,2) = 6.0+0.0;
+	if (m1 != expMatrix) {
+		errorString = "Resultant matrix doesn't equal the expected matrix";
+		return false;
+	}
+
+	cMatrix m4(4,4);
+	bool caughtError = false;
+	try {
+		 m1 += m4;
+	}
+	catch (std::out_of_range& exception) {
+		caughtError = true;
+	}
+	if (caughtError == false) {
+		errorString = "Did not catch exception";
+		return false;
+	}
 	return true;
 }
 
 bool opAddEqualsTest2 (std::string& errorString) {
+	cMatrix m1(2,3);
+	m1.set(0,0) = 1;
+	m1.set(0,1) = -2;
+	m1.set(0,2) = 3;
+	m1.set(1,0) = 4.0/7.0;
+	m1.set(1,1) = -5.1234;
+	m1.set(1,2) = 6;
+
+	double val = 4.5;
+
+	m1 += val;
+	cMatrix expMatrix(2,3);
+	expMatrix.set(0,0) = 1.0+val;
+	expMatrix.set(0,1) = -2.0+val;
+	expMatrix.set(0,2) = 3.0+val;
+	expMatrix.set(1,0) = (4.0/7.0)+val;
+	expMatrix.set(1,1) = -5.1234+val;
+	expMatrix.set(1,2) = 6.0+val;
+	if (m1 != expMatrix) {
+		errorString = "Resultant matrix doesn't equal the expected matrix";
+		return false;
+	}
 	return true;
 }
 
 bool opSubtractTest1 (std::string& errorString) {
+	cMatrix m1(2,3), m2(2,3);
+	m1.set(0,0) = 1;
+	m1.set(0,1) = -2;
+	m1.set(0,2) = 3;
+	m1.set(1,0) = 4.0/7.0;
+	m1.set(1,1) = -5.1234;
+	m1.set(1,2) = 6;
+
+	m2.set(0,0) = 321;
+	m2.set(0,1) = -0.00001;
+	m2.set(0,2) = 432.0/123.9;
+	m2.set(1,0) = 7;
+	m2.set(1,1) = -48.5;
+	m2.set(1,2) = 0;
+
+	cMatrix m3 = m1 - m2;
+	cMatrix expMatrix(2,3);
+	expMatrix.set(0,0) = 1.0-321.0;
+	expMatrix.set(0,1) = -2.0-(-0.00001);
+	expMatrix.set(0,2) = 3.0-(432.0/123.9);
+	expMatrix.set(1,0) = (4.0/7.0)-7.0;
+	expMatrix.set(1,1) = -5.1234-(-48.5);
+	expMatrix.set(1,2) = 6.0-0.0;
+	if (m3 != expMatrix) {
+		errorString = "Resultant matrix doesn't equal the expected matrix";
+		return false;
+	}
+
+	cMatrix m4(4,4);
+	bool caughtError = false;
+	try {
+		cMatrix m5 = m1-m4;
+	}
+	catch (std::out_of_range& exception) {
+		caughtError = true;
+	}
+	if (caughtError == false) {
+		errorString = "Did not catch exception";
+		return false;
+	}
 	return true;
 }
 
 bool opSubtractTest2 (std::string& errorString) {
+	cMatrix m1(2,3);
+	m1.set(0,0) = 1;
+	m1.set(0,1) = -2;
+	m1.set(0,2) = 3;
+	m1.set(1,0) = 4.0/7.0;
+	m1.set(1,1) = -5.1234;
+	m1.set(1,2) = 6;
+
+	double val = 4.5;
+
+	cMatrix m2 = val - m1;
+	cMatrix expMatrix(2,3);
+	expMatrix.set(0,0) = val-1.0;
+	expMatrix.set(0,1) = val-(-2.0);
+	expMatrix.set(0,2) = val-3.0;
+	expMatrix.set(1,0) = val-(4.0/7.0);
+	expMatrix.set(1,1) = val-(-5.1234);
+	expMatrix.set(1,2) = val-6.0;
+	if (m2 != expMatrix) {
+		errorString = "Resultant matrix doesn't equal the expected matrix";
+		return false;
+	}
 	return true;
 }
 
 bool opSubtractTest3 (std::string& errorString) {
+	cMatrix m1(2,3);
+	m1.set(0,0) = 1;
+	m1.set(0,1) = -2;
+	m1.set(0,2) = 3;
+	m1.set(1,0) = 4.0/7.0;
+	m1.set(1,1) = -5.1234;
+	m1.set(1,2) = 6;
+
+	double val = 4.5;
+
+	cMatrix m2 = m1 - val;
+	cMatrix expMatrix(2,3);
+	expMatrix.set(0,0) = 1.0-val;
+	expMatrix.set(0,1) = -2.0-val;
+	expMatrix.set(0,2) = 3.0-val;
+	expMatrix.set(1,0) = (4.0/7.0)-val;
+	expMatrix.set(1,1) = -5.1234-val;
+	expMatrix.set(1,2) = 6.0-val;
+	if (m2 != expMatrix) {
+		errorString = "Resultant matrix doesn't equal the expected matrix";
+		return false;
+	}
 	return true;
 }
 
 bool opSubtractEqualsTest1 (std::string& errorString) {
+	cMatrix m1(2,3), m2(2,3);
+	m1.set(0,0) = 1;
+	m1.set(0,1) = -2;
+	m1.set(0,2) = 3;
+	m1.set(1,0) = 4.0/7.0;
+	m1.set(1,1) = -5.1234;
+	m1.set(1,2) = 6;
+
+	m2.set(0,0) = 321;
+	m2.set(0,1) = -0.00001;
+	m2.set(0,2) = 432.0/123.9;
+	m2.set(1,0) = 7;
+	m2.set(1,1) = -48.5;
+	m2.set(1,2) = 0;
+
+	m1 -= m2;
+	cMatrix expMatrix(2,3);
+	expMatrix.set(0,0) = 1.0-321.0;
+	expMatrix.set(0,1) = -2.0-(-0.00001);
+	expMatrix.set(0,2) = 3.0-(432.0/123.9);
+	expMatrix.set(1,0) = (4.0/7.0)-7.0;
+	expMatrix.set(1,1) = -5.1234-(-48.5);
+	expMatrix.set(1,2) = 6.0-0.0;
+	if (m1 != expMatrix) {
+		errorString = "Resultant matrix doesn't equal the expected matrix";
+		return false;
+	}
+
+	cMatrix m4(4,4);
+	bool caughtError = false;
+	try {
+		 m1 -= m4;
+	}
+	catch (std::out_of_range& exception) {
+		caughtError = true;
+	}
+	if (caughtError == false) {
+		errorString = "Did not catch exception";
+		return false;
+	}
 	return true;
 }
 
 bool opSubtractEqualsTest2 (std::string& errorString) {
+	cMatrix m1(2,3);
+	m1.set(0,0) = 1;
+	m1.set(0,1) = -2;
+	m1.set(0,2) = 3;
+	m1.set(1,0) = 4.0/7.0;
+	m1.set(1,1) = -5.1234;
+	m1.set(1,2) = 6;
+
+	double val = 4.5;
+
+	m1 -= val;
+	cMatrix expMatrix(2,3);
+	expMatrix.set(0,0) = 1.0-val;
+	expMatrix.set(0,1) = -2.0-val;
+	expMatrix.set(0,2) = 3.0-val;
+	expMatrix.set(1,0) = (4.0/7.0)-val;
+	expMatrix.set(1,1) = -5.1234-val;
+	expMatrix.set(1,2) = 6.0-val;
+	if (m1 != expMatrix) {
+		errorString = "Resultant matrix doesn't equal the expected matrix";
+		return false;
+	}
 	return true;
 }
 
@@ -356,9 +774,69 @@ bool opOutputTest (std::string& errorString) {
 }
 
 bool mTransposeTest (std::string& errorString) {
+	cMatrix m1(2,3);
+	m1.set(0,0) = 1;
+	m1.set(0,1) = 2;
+	m1.set(0,2) = 3;
+	m1.set(1,0) = 4;
+	m1.set(1,1) = 5;
+	m1.set(1,2) = 6;
+
+	cMatrix m2 = mTranspose(m1);
+	cMatrix expMatrix(3,2);
+	expMatrix.set(0,0) = 1;
+	expMatrix.set(0,1) = 4;
+	expMatrix.set(1,0) = 2;
+	expMatrix.set(1,1) = 5;
+	expMatrix.set(2,0) = 3;
+	expMatrix.set(2,1) = 6;
+	if (m2 != expMatrix) {
+		errorString = "Resultant matrix doesn't equal the expected matrix";
+		return false;
+	}
 	return true;
 }
 
 bool mCoeffMultTest (std::string& errorString) {
+	cMatrix m1 (2,3), m2(2,3);
+	m1.set(0,0) = 1;
+	m1.set(0,1) = -2;
+	m1.set(0,2) = 3.5;
+	m1.set(1,0) = 4;
+	m1.set(1,1) = 5;
+	m1.set(1,2) = 6;
+
+	m2.set(0,0) = 1;
+	m2.set(0,1) = -2;
+	m2.set(0,2) = -3.5;
+	m2.set(1,0) = 4;
+	m2.set(1,1) = 5;
+	m2.set(1,2) = 6;
+	
+	cMatrix m3 = mCoeffMult(m1,m2);
+	cMatrix expMatrix(2,3);
+	expMatrix.set(0,0) = 1.0*1.0;
+	expMatrix.set(0,1) = -2.0*-2.0;
+	expMatrix.set(0,2) = 3.5*(-3.5);
+	expMatrix.set(1,0) = 4.0*4.0;
+	expMatrix.set(1,1) = 5.0*5.0;
+	expMatrix.set(1,2) = 6.0*6.0;
+
+	if (m3 != expMatrix) {
+		errorString = "Resultant matrix doesn't equal the expected matrix";
+		return false;
+	}
+	cMatrix m4(2,4);
+	bool caughtError = false;
+	try {
+		cMatrix m5 = mCoeffMult(m1,m4);
+	}
+	catch (std::out_of_range& exception) {
+		caughtError = true;
+	}
+	if (caughtError == false) {
+		errorString = "Didn't catch the exception";
+		return false;
+	}
 	return true;
 }
