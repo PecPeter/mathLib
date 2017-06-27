@@ -15,7 +15,6 @@ class cVector2: public cMatrix {
 		cVector2 (double x, double y);
 		cVector2 (const cVector2& vector);
 		cVector2 (const cMatrix& matrix);
-		virtual ~cVector2 (void);
 
 		double getX (void) const;
 		double getY (void) const;
@@ -30,7 +29,6 @@ class cVector3 : public cMatrix {
 		cVector3 (double x, double y, double z);
 		cVector3 (const cVector3& vector);
 		cVector3 (const cMatrix& matrix);
-		~cVector3 (void);
 
 		double getX (void) const;
 		double getY (void) const;
@@ -47,7 +45,6 @@ class cVector4 : public cMatrix {
 		cVector4 (double w, double x, double y, double z);
 		cVector4 (const cVector4& vector);
 		cVector4 (const cMatrix& matrix);
-		~cVector4 (void);
 
 		double getW (void) const;
 		double getX (void) const;

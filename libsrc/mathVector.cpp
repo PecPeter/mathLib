@@ -17,8 +17,6 @@ cVector2::cVector2 (const cMatrix& matrix): cMatrix(2,1) {
 	set(1,0) = matrix.get(1,0);
 }
 
-cVector2::~cVector2 (void) {}
-
 double cVector2::getX (void) const {
 	return get(0,0);
 }
@@ -53,8 +51,6 @@ cVector3::cVector3 (const cMatrix& matrix): cMatrix(3,1) {
 	set(1,0) = matrix.get(1,0);
 	set(2,0) = matrix.get(2,0);
 }
-
-cVector3::~cVector3 (void) {}
 
 double cVector3::getX (void) const {
 	return get(0,0);
@@ -100,8 +96,6 @@ cVector4::cVector4 (const cMatrix& matrix): cMatrix(4,1) {
 	set(2,0) = matrix.get(2,0);
 	set(3,0) = matrix.get(3,0);
 }
-
-cVector4::~cVector4 (void) {}
 
 double cVector4::getW (void) const {
 	return get(0,0);
